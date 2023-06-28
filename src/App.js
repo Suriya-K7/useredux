@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { createStore } from "redux";
 import Todos from "./Todos.js";
 import { Provider } from "react-redux";
@@ -73,7 +73,6 @@ const App = () => {
     setName("");
   }
 */
-  // const [name, setName] = useState("");
   const name = useRef("");
   function handleSubmit(e) {
     let todo = newTodo(name.current.value);
