@@ -1,5 +1,4 @@
-import { type } from "@testing-library/user-event/dist/type";
-import React, { useReducer, useState } from "react";
+import React, { useRef, useState } from "react";
 import { createStore } from "redux";
 import Todos from "./Todos.js";
 import { Provider } from "react-redux";
@@ -9,6 +8,7 @@ export const ACTIONS = {
   COM: "complete",
   DEL: "delete",
 };
+
 const todoReducer = (todos = [], action) => {
   switch (action.type) {
     case ACTIONS.ADD:
@@ -73,26 +73,26 @@ const App = () => {
     setName("");
   }
 */
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
+  const name = useRef("");
   function handleSubmit(e) {
-    let todo = newTodo(name);
+    let todo = newTodo(name.current.value);
     e.preventDefault();
     store.dispatch({
       type: ACTIONS.ADD,
       payload: todo,
     });
-    setName("");
+    name.current.value = "";
+    name.current.focus();
   }
   return (
     <Provider store={store}>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button type="submit">Submit</button>
+      <div className="container">
+        <form onSubmit={handleSubmit} className="p-3 d-flex gap-2">
+          <input ref={name} type="text" className="form-control" />
+          <button className="btn btn-outline-primary" type="submit">
+            Submit
+          </button>
         </form>
         <Todos />
         {/* <div>
